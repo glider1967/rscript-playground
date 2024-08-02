@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import preactLogo from "./assets/preact.svg";
 import viteLogo from "/vite.svg";
 import "./app.css";
-import init, { greet } from "../rscript/pkg";
+import init, { greet, eval_script } from "../rscript/pkg";
 
 export function App() {
   const [count, setCount] = useState(0);
@@ -27,6 +27,11 @@ export function App() {
           count is {count}
         </button>
         <button onClick={() => greet("adam")}>Greeting</button>
+        <button
+          onClick={() => alert(eval_script("let q = 1; let a = q + 1; a + q"))}
+        >
+          eval
+        </button>
         <p>
           Edit <code>src/app.tsx</code> and save to test HMR
         </p>
