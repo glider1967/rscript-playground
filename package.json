@@ -1,12 +1,15 @@
 {
   "name": "rscript-playgroud",
+  "homepage": "https://glider1967.github.io/rscript-playgroud",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "pnpm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "monaco-editor": "^0.52.2",
@@ -14,6 +17,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.8.3",
+    "gh-pages": "^6.2.0",
     "typescript": "^5.2.2",
     "vite": "^5.3.4"
   }
