@@ -1,54 +1,48 @@
-import { useEffect, useState } from "preact/hooks";
-import preactLogo from "./assets/preact.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useRef, useState } from "preact/hooks";
 import "./app.css";
-import init, { greet, eval_script } from "../rscript/pkg";
+import init, { eval_script } from "../rscript/pkg";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 export function App() {
-  const [count, setCount] = useState(0);
+  const [code, setCode] = useState("let x = 1; x + 3");
+  const [result, setResult] = useState("");
+  const editorRef = useRef<HTMLDivElement>(null);
+  const monacoRef = useRef<monaco.editor.IStandaloneCodeEditor>();
 
   useEffect(() => {
+    // init of wasm
     init();
+
+    // init of code editor
+    if (editorRef.current === null) return;
+    monacoRef.current = monaco.editor.create(editorRef.current, {
+      value: "let x = 1;\nx + 3",
+      language: "plaintext",
+      theme: "vs",
+      minimap: {
+        enabled: false,
+      },
+      scrollBeyondLastLine: false,
+      contextmenu: false,
+      automaticLayout: true,
+    });
+    monacoRef.current.onDidChangeModelContent(() => {
+      setCode(monacoRef.current?.getValue() ?? "");
+    });
+
+    return () => {
+      monacoRef.current?.dispose();
+    };
   }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
-      </div>
-      <h1>Vite + Preact</h1>
+      <h1>tiny script language written in rust</h1>
+      <div ref={editorRef} style={{ width: "80%", height: "500px" }}></div>
       <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => greet("adam")}>Greeting</button>
-        <button
-          onClick={() => alert(eval_script("let q = 1; let a = q + 1; a + q"))}
-        >
-          eval
-        </button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
+        <button onClick={() => setResult(eval_script(code))}>evaluate</button>
       </div>
-      <p>
-        Check out{" "}
-        <a
-          href="https://preactjs.com/guide/v10/getting-started#create-a-vite-powered-preact-app"
-          target="_blank"
-        >
-          create-preact
-        </a>
-        , the official Preact + Vite starter
-      </p>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
+      <div>{result}</div>
     </>
   );
 }
