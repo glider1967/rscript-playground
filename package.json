@@ -1,6 +1,6 @@
 {
   "name": "rscript-playgroud",
-  "homepage": "https://glider1967.github.io/rscript-playgroud",
+  "homepage": "https://glider1967.github.io/rscript-playground",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "monaco-editor": "^0.52.2",
-    "preact": "^10.22.1"
+    "preact": "^10.22.1",
+    "preact-iso": "^2.8.1"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.8.3",
