@@ -32,6 +32,7 @@ f(8, i)`;
 export function App() {
   const [code, setCode] = useState(FUNCTIONS);
   const [result, setResult] = useState("evaluate to see result");
+  const [error, setError] = useState("");
   const editorRef = useRef<HTMLDivElement>(null);
   const monacoRef = useRef<monaco.editor.IStandaloneCodeEditor>();
 
@@ -61,6 +62,22 @@ export function App() {
     };
   }, []);
 
+  function on_eval(code: string) {
+    const result = eval_script(code);
+    if ("Ok" in result) {
+      setResult(result.Ok);
+      setError("");
+    } else if ("ParseError" in result) {
+      setError(result.ParseError);
+    } else if ("TypeInferError" in result) {
+      setError(result.TypeInferError);
+    } else if ("EvaluationError" in result) {
+      setError(result.EvaluationError);
+    } else {
+      console.error("Unknown result type");
+    }
+  }
+
   return (
     <>
       <h1>tiny script language written in rust</h1>
@@ -86,9 +103,10 @@ export function App() {
         </button>
       </div>
       <div ref={editorRef} style={{ width: "100%", height: "500px" }}></div>
-      <button onClick={() => setResult(eval_script(code))} class="buttons">
+      <button onClick={() => on_eval(code)} class="buttons">
         evaluate
       </button>
+      {error !== "" && <div class="error">{error}</div>}
       <div class="output">{result}</div>
     </>
   );

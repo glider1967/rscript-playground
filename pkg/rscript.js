@@ -88,14 +88,6 @@ function passStringToWasm0(arg, malloc, realloc) {
     WASM_VECTOR_LEN = offset;
     return ptr;
 }
-/**
-* @param {string} name
-*/
-export function greet(name) {
-    const ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    const len0 = WASM_VECTOR_LEN;
-    wasm.greet(ptr0, len0);
-}
 
 function getObject(idx) { return heap[idx]; }
 
@@ -112,7 +104,7 @@ function takeObject(idx) {
 }
 /**
 * @param {string} line
-* @returns {any}
+* @returns {EvaluationResult}
 */
 export function eval_script(line) {
     const ptr0 = passStringToWasm0(line, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
@@ -155,12 +147,12 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_alert_a9bc0fde9c603c0b = function(arg0, arg1) {
-        alert(getStringFromWasm0(arg0, arg1));
-    };
-    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
-        const ret = getStringFromWasm0(arg0, arg1);
+    imports.wbg.__wbindgen_json_parse = function(arg0, arg1) {
+        const ret = JSON.parse(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_throw = function(arg0, arg1) {
+        throw new Error(getStringFromWasm0(arg0, arg1));
     };
 
     return imports;

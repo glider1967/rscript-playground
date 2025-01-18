@@ -1,20 +1,17 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {string} name
-*/
-export function greet(name: string): void;
-/**
 * @param {string} line
-* @returns {any}
+* @returns {EvaluationResult}
 */
-export function eval_script(line: string): any;
+export function eval_script(line: string): EvaluationResult;
+export type EvaluationResult = { Ok: string } | { ParseError: string } | { TypeInferError: string } | { EvaluationError: string };
+
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly greet: (a: number, b: number) => void;
   readonly eval_script: (a: number, b: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

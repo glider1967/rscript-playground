@@ -13,3 +13,10 @@
   padding: 0.3rem;
   min-height: 1.6rem;
 }
+
+.error {
+  background-color: black;
+  color: red;
+  padding: 0.3rem;
+  min-height: 1.6rem;
+}

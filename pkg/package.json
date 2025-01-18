@@ -1,12 +1,13 @@
 {
   "name": "rscript",
+  "type": "module",
   "version": "0.1.0",
   "files": [
     "rscript_bg.wasm",
     "rscript.js",
     "rscript.d.ts"
   ],
-  "module": "rscript.js",
+  "main": "rscript.js",
   "types": "rscript.d.ts",
   "sideEffects": [
     "./snippets/*"
