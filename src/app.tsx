@@ -29,6 +29,26 @@ let f = lambda(i, j) {
 };
 f(8, i)`;
 
+const CONS_LIST = `enum List {
+    Cons(int, List),
+    Nil
+};
+let sum = lambda(l: List) {
+    match (l) {
+        Cons(x, xs) => x + sum(xs),
+        Nil => 0
+    }
+};
+let map = lambda(l: List, f: int -> int) {
+    match(l) {
+        Cons(x, xs) => Cons(f(x), map(xs, f)),
+        Nil => Nil
+    }
+};
+let l = Cons(1, Cons(2, Cons(3, Nil)));
+sum(map(l, lambda(x){x*x}))
+`;
+
 export function App() {
   const [code, setCode] = useState(FUNCTIONS);
   const [result, setResult] = useState("evaluate to see result");
@@ -100,6 +120,12 @@ export function App() {
           class="buttons"
         >
           variables and scopes
+        </button>
+        <button
+          onClick={() => monacoRef.current?.setValue(CONS_LIST)}
+          class="buttons"
+        >
+          cons list
         </button>
       </div>
       <div ref={editorRef} style={{ width: "100%", height: "500px" }}></div>
