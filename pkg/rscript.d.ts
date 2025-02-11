@@ -5,7 +5,7 @@
 * @returns {EvaluationResult}
 */
 export function eval_script(line: string): EvaluationResult;
-export type EvaluationResult = { Ok: string } | { ParseError: string } | { TypeInferError: string } | { EvaluationError: string };
+export type EvaluationResult = { Ok: { evaluated: string; types: string } } | { ParseError: string } | { TypeInferError: string } | { EvaluationError: string };
 
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;

@@ -68,6 +68,7 @@ fizzbuzz(99)`;
 export function App() {
   const [code, setCode] = useState(FUNCTIONS);
   const [result, setResult] = useState("evaluate to see result");
+  const [types, setTypes] = useState("");
   const [error, setError] = useState("");
   const editorRef = useRef<HTMLDivElement>(null);
   const monacoRef = useRef<monaco.editor.IStandaloneCodeEditor>();
@@ -101,7 +102,8 @@ export function App() {
   function on_eval(code: string) {
     const result = eval_script(code);
     if ("Ok" in result) {
-      setResult(result.Ok);
+      setResult(result.Ok.evaluated);
+      setTypes(result.Ok.types);
       setError("");
     } else if ("ParseError" in result) {
       setError(result.ParseError);
@@ -156,6 +158,7 @@ export function App() {
       </button>
       {error !== "" && <div class="error">{error}</div>}
       <div class="output">{result}</div>
+      <div class="types">{types}</div>
     </>
   );
 }

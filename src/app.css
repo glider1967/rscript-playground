@@ -15,6 +15,14 @@
   white-space: pre-wrap;
 }
 
+.types {
+  background-color: black;
+  padding: 0.3rem;
+  min-height: 1.6rem;
+  white-space: pre-wrap;
+  color: yellow;
+}
+
 .error {
   background-color: black;
   color: red;
