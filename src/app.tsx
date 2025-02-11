@@ -6,8 +6,8 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 const FUNCTIONS = `let twice = lambda(f, x) {
     f(f(x))
 };
-let multFour = twice(lambda(x) {x*2});
-multFour(7)`;
+let multFour = twice(lambda(x) {x*2}); // 部分適用
+multFour(7) // 最後の式を評価した値が出力される`;
 
 const FIBONACCI = `let fib = lambda(n) {
     if(n == 0 || n == 1) {
@@ -21,13 +21,13 @@ fib(10)`;
 const VAR_AND_SCOPE = `let i = false;
 let f = lambda(i, j) {
     let q = if(!j) {
-        i
+        i // このiは2行目のi
     } else {
         i + 2
     };
     q / 2
 };
-f(8, i)`;
+f(8, i) // このiは1行目のi`;
 
 const CONS_LIST = `enum List {
     Cons(int, List),
@@ -46,8 +46,24 @@ let map = lambda(l: List, f: int -> int) {
     }
 };
 let l = Cons(1, Cons(2, Cons(3, Nil)));
-sum(map(l, lambda(x){x*x}))
-`;
+sum(map(l, lambda(x){x*x})) // 1*1 + 2*2 + 3*3`;
+
+const FIZZBUZZ = `let fizzbuzz = lambda(n: int) {
+    if (n == 0) {
+        ""
+    } else if (24 <= n < 30) { // 24 <= n && n < 30 と同値
+        fizzbuzz(n - 1) ++ "YAY\\n"
+    } else if (n % 15 == 0) { 
+        fizzbuzz(n - 1) ++ "FizzBuzz\\n"
+    } else if (n % 5 == 0) {
+        fizzbuzz(n - 1) ++ "Buzz\\n"
+    } else if (n % 3 == 0) {
+        fizzbuzz(n - 1) ++ "Fizz\\n"
+    } else {
+        fizzbuzz(n - 1) ++ ~n ++ "\\n" // ~nで整数から文字列へ変換
+    }
+};
+fizzbuzz(99)`;
 
 export function App() {
   const [code, setCode] = useState(FUNCTIONS);
@@ -126,6 +142,12 @@ export function App() {
           class="buttons"
         >
           cons list
+        </button>
+        <button
+          onClick={() => monacoRef.current?.setValue(FIZZBUZZ)}
+          class="buttons"
+        >
+          FizzBuzz
         </button>
       </div>
       <div ref={editorRef} style={{ width: "100%", height: "500px" }}></div>

@@ -12,6 +12,7 @@
   background-color: black;
   padding: 0.3rem;
   min-height: 1.6rem;
+  white-space: pre-wrap;
 }
 
 .error {
